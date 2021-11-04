@@ -1,6 +1,6 @@
 {
-  "name": "@remirror/extension-yjs",
-  "version": "1.0.13",
+  "name": "@dalperin/extension-yjs",
+  "version": "1.0.14",
   "description": "Realtime collaboration with yjs",
   "keywords": [
     "remirror",
@@ -12,33 +12,34 @@
   "homepage": "https://github.com/remirror/remirror/tree/HEAD/packages/remirror__extension-yjs",
   "repository": {
     "type": "git",
-    "url": "https://github.com/remirror/remirror.git",
+    "url": "https://github.com/DAlperin/remirror.git",
     "directory": "packages/remirror__extension-yjs"
   },
   "license": "MIT",
   "contributors": [
     "Benjie Gillam <code@benjiegillam.com>",
-    "Ifiok Jr. <ifiokotung@gmail.com>"
+    "Ifiok Jr. <ifiokotung@gmail.com>",
+    "Dov Alperin <dzalperin@gmail.com>"
   ],
   "sideEffects": false,
   "exports": {
     ".": {
-      "import": "./dist/remirror-extension-yjs.esm.js",
-      "require": "./dist/remirror-extension-yjs.cjs.js",
-      "browser": "./dist/remirror-extension-yjs.browser.esm.js",
-      "types": "./dist/remirror-extension-yjs.cjs.d.ts",
-      "default": "./dist/remirror-extension-yjs.esm.js"
+      "import": "./dist/dalperin-extension-yjs.esm.js",
+      "require": "./dist/dalperin-extension-yjs.cjs.js",
+      "browser": "./dist/dalperin-extension-yjs.browser.esm.js",
+      "types": "./dist/dalperin-extension-yjs.cjs.d.ts",
+      "default": "./dist/dalperin-extension-yjs.esm.js"
     },
     "./package.json": "./package.json",
     "./types/*": "./dist/declarations/src/*.d.ts"
   },
-  "main": "dist/remirror-extension-yjs.cjs.js",
-  "module": "dist/remirror-extension-yjs.esm.js",
+  "main": "dist/dalperin-extension-yjs.cjs.js",
+  "module": "dist/dalperin-extension-yjs.esm.js",
   "browser": {
-    "./dist/remirror-extension-yjs.cjs.js": "./dist/remirror-extension-yjs.browser.cjs.js",
-    "./dist/remirror-extension-yjs.esm.js": "./dist/remirror-extension-yjs.browser.esm.js"
+    "./dist/dalperin-extension-yjs.cjs.js": "./dist/dalperin-extension-yjs.browser.cjs.js",
+    "./dist/dalperin-extension-yjs.esm.js": "./dist/dalperin-extension-yjs.browser.esm.js"
   },
-  "types": "dist/remirror-extension-yjs.cjs.d.ts",
+  "types": "dist/dalperin-extension-yjs.cjs.d.ts",
   "files": [
     "dist"
   ],
@@ -47,7 +48,7 @@
     "@remirror/core": "^1.3.0",
     "@remirror/extension-annotation": "^1.1.5",
     "@remirror/messages": "^1.0.5",
-    "y-prosemirror": "^1.0.9",
+    "@dalperin/y-prosemirror": "^1.0.9",
     "y-protocols": "^1.0.5"
   },
   "devDependencies": {

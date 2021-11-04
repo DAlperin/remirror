@@ -65,6 +65,8 @@ export interface YjsOptions<Provider extends YjsRealtimeProvider = YjsRealtimePr
    */
   getProvider: Provider | (() => Provider);
 
+  getDoc?: Doc | (() => Doc | undefined)
+
   /**
    * Remove the active provider. This should only be set at initial construction
    * of the editor.
@@ -120,6 +122,9 @@ export interface YjsOptions<Provider extends YjsRealtimeProvider = YjsRealtimePr
         message: 'You must provide a YJS Provider to the `YjsExtension`.',
       });
     },
+    getDoc: () => {
+      return undefined
+    },
     destroyProvider: defaultDestroyProvider,
     syncPluginOptions: undefined,
     cursorBuilder: defaultCursorBuilder,
@@ -136,6 +141,7 @@ export class YjsExtension extends PlainExtension<YjsOptions> {
   }
 
   private _provider?: YjsRealtimeProvider;
+  private _doc?: Doc;
 
   /**
    * The provider that is being used for the editor.
@@ -146,15 +152,24 @@ export class YjsExtension extends PlainExtension<YjsOptions> {
     return (this._provider ??= getLazyValue(getProvider));
   }
 
+  get doc(): Doc | undefined {
+    const { getDoc } = this.options;
+    const doc = getLazyValue(getDoc);
+    if(!doc) {
+      return (this._doc ??= this.provider.doc)
+    }
+    return (this._doc ??= doc)
+  }
+
   onView(): void {
     try {
       this.store.manager.getExtension(AnnotationExtension).setOptions({
-        getMap: () => this.provider.doc.getMap('annotations'),
+        getMap: () => this.doc.getMap('annotations'),
         transformPosition: this.absolutePositionToRelativePosition.bind(this),
         transformPositionBeforeRender: this.relativePositionToAbsolutePosition.bind(this),
       });
 
-      this.provider.doc.on(
+      this.doc.on(
         'update',
         (_update: Uint8Array, _origin: any, _doc: Doc, yjsTr: YjsTransaction) => {
           // Ignore own changes
@@ -183,7 +198,7 @@ export class YjsExtension extends PlainExtension<YjsOptions> {
       trackedOrigins,
     } = this.options;
 
-    const yDoc = this.provider.doc;
+    const yDoc = this.doc;
     const type = yDoc.getXmlFragment('prosemirror');
 
     return [
@@ -326,7 +341,7 @@ export class YjsExtension extends PlainExtension<YjsOptions> {
   private relativePositionToAbsolutePosition(relPos: RelativePosition): number | null {
     const state = this.store.getState();
     const { type, binding } = ySyncPluginKey.getState(state);
-    return relativePositionToAbsolutePosition(this.provider.doc, type, relPos, binding.mapping);
+    return relativePositionToAbsolutePosition(this.doc, type, relPos, binding.mapping);
   }
 }
 
